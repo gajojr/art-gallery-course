@@ -15,10 +15,14 @@ import {
 } from '@expo-google-fonts/poppins';
 
 export default function App() {
-	const [fontsLoaded] = useFonts({
+	const [loaded, error] = useFonts({
 		Poppins_500Medium,
 		Poppins_700Bold,
 	});
+
+	if (error) {
+		return <></>;
+	}
 
 	return (
 		<ImageBackground
