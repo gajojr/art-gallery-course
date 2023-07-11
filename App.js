@@ -12,6 +12,10 @@ export default function App() {
 				<Stack.Screen
 					name='Home'
 					component={HomeScreen}
+					options={{
+						title: '',
+						headerTransparent: true,
+					}}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>
