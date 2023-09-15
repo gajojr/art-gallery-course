@@ -62,11 +62,88 @@ const Form = () => {
 	const [pendingVerification, setPendingVerification] = useState(false);
 	const [code, setCode] = useState(['', '', '', '', '', '']);
 
-	function validateData() {}
+	function validateData() {
+		const emailPattern = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+		const fullNamePattern = /^[a-zA-Z\s]+$/;
+		let valid = true;
 
-	const onSignUpPress = async () => {};
+		if (!emailPattern.test(email)) {
+			setEmailInputError('Invalid email format');
+			valid = false;
+		}
 
-	const onPressVerify = async () => {};
+		if (
+			!fullNamePattern.test(fullname) ||
+			fullname.length < 3 ||
+			fullname.length > 50
+		) {
+			setFullnameInputError(
+				'Fullname must contain only letters and have a length between 3 and 50'
+			);
+			valid = false;
+		}
+
+		if (password.length < 8) {
+			setPasswordInputError('Password must be at least 8 characters long');
+			valid = false;
+		}
+
+		return valid;
+	}
+
+	const onSignUpPress = async () => {
+		if (!isChecked) {
+			Alert.alert('You must agree to privacy policy');
+			return;
+		}
+
+		if (!validateData()) {
+			return;
+		}
+
+		if (!isLoaded) {
+			return;
+		}
+
+		try {
+			await signUp.create({
+				emailAddress: email,
+				password,
+			});
+
+			await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+
+			setPendingVerification(true);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const onPressVerify = async () => {
+		const completeSignUp = await signUp?.attemptEmailAddressVerification({
+			code: code.join(''),
+		});
+
+		// @ts-ignore
+		await setActive({ session: completeSignUp?.createdSessionId });
+		setPendingVerification(false);
+
+		await setDoc(doc(db, 'users', email), {
+			fullname,
+			emailAddress: email,
+			username: '',
+			profileImgUrl: '',
+			authType: 'email',
+			creationDate: new Date(),
+		});
+
+		dispatch(selectAuthType('email'));
+		dispatch(selectAuthenticated(true));
+		dispatch(selectEmailAddress(email));
+		dispatch(selectFullname(fullname));
+
+		navigation.navigate('Profile' as never);
+	};
 
 	if (!loaded || error) {
 		return <></>;
@@ -199,8 +276,8 @@ const Form = () => {
 										)?.focus();
 									}
 								}}
-								onKeyPress={({ nativeElement }: any) => {
-									if (nativeElement.key === 'Backspace' && codePart === '') {
+								onKeyPress={({ nativeEvent }: any) => {
+									if (nativeEvent.key === 'Backspace' && codePart === '') {
 										if (index > 0) {
 											const newCode = [...code];
 											newCode[index - 1] = '';
