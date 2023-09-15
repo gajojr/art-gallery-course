@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { View, TouchableOpacity, TextInput } from 'react-native';
+import {
+	View,
+	TouchableOpacity,
+	TextInput,
+	NativeSyntheticEvent,
+	TextInputKeyPressEventData,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import {
 	Poppins_300Light,
@@ -124,9 +130,12 @@ const Form = () => {
 			code: code.join(''),
 		});
 
-		// @ts-ignore
-		await setActive({ session: completeSignUp?.createdSessionId });
-		setPendingVerification(false);
+		if (setActive) {
+			await setActive({ session: completeSignUp?.createdSessionId });
+			setPendingVerification(false);
+		} else {
+			return;
+		}
 
 		await setDoc(doc(db, 'users', email), {
 			fullname,
@@ -276,7 +285,9 @@ const Form = () => {
 										)?.focus();
 									}
 								}}
-								onKeyPress={({ nativeEvent }: any) => {
+								onKeyPress={({
+									nativeEvent,
+								}: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
 									if (nativeEvent.key === 'Backspace' && codePart === '') {
 										if (index > 0) {
 											const newCode = [...code];
