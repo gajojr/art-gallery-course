@@ -57,7 +57,7 @@ const Form = () => {
 	const [passwordInputError, setPasswordInputError] = useState('');
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-	const [isChecked, setIsCheked] = useState(false);
+	const [isChecked, setIsChecked] = useState(false);
 
 	const [pendingVerification, setPendingVerification] = useState(false);
 	const [code, setCode] = useState(['', '', '', '', '', '']);
@@ -123,8 +123,10 @@ const Form = () => {
 					onBlur={() => setIsFocusedPassword(false)}
 					isFocused={isFocusedPassword}
 					style={{
-						borderColor: isFocusedPassword ? '#A463F8' : '#fff',
-						backgroundColor: isFocusedPassword ? '#000' : 'transparent',
+						flex: 1,
+						borderColor: 'transparent',
+						backgroundColor: 'transparent',
+						marginTop: 0,
 					}}
 				/>
 				<TouchableOpacity
@@ -140,6 +142,110 @@ const Form = () => {
 			</PasswordInputWrapper>
 			{passwordInputError && (
 				<InputErrorText>{passwordInputError}</InputErrorText>
+			)}
+
+			<CheckboxContainer>
+				<TouchableOpacity onPress={() => setIsChecked(!isChecked)}>
+					<View
+						style={{
+							height: 24,
+							width: 24,
+							backgroundColor: isChecked ? '#A463F8' : '#fff',
+							justifyContent: 'center',
+							alignItems: 'center',
+							borderRadius: 5,
+						}}
+					>
+						{isChecked && (
+							<Icon
+								name='check'
+								size={20}
+								color='#fff'
+							/>
+						)}
+					</View>
+				</TouchableOpacity>
+				<CheckboxText>
+					I have read and agree to Terms of Use and Privacy Policy
+				</CheckboxText>
+			</CheckboxContainer>
+
+			{pendingVerification ? (
+				<View
+					style={{
+						marginTop: 20,
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}
+				>
+					<View style={{ flexDirection: 'row', marginBottom: 20 }}>
+						{code.map((codePart, index) => (
+							<ConfirmationInput
+								key={index}
+								value={codePart}
+								keyboardType='numeric'
+								maxLength={1}
+								onChangeText={(text: string) => {
+									const newCode = [...code];
+									newCode[index] = text;
+									setCode(newCode);
+									if (text && index < code.length - 1) {
+										(
+											this?.[`input${index + 1}`] as unknown as TextInput
+										)?.focus();
+									} else if (text === '' && index > 0) {
+										(
+											this?.[`input${index - 1}`] as unknown as TextInput
+										)?.focus();
+									}
+								}}
+								onKeyPress={({ nativeElement }: any) => {
+									if (nativeElement.key === 'Backspace' && codePart === '') {
+										if (index > 0) {
+											const newCode = [...code];
+											newCode[index - 1] = '';
+											setCode(newCode);
+											(
+												this?.[`input${index - 1}`] as unknown as TextInput
+											)?.focus();
+										}
+									}
+								}}
+								// @ts-ignore
+								ref={(ref: any) => ((this as any)[`input${index}`] = ref)}
+							/>
+						))}
+					</View>
+					<VerifyButton onPress={onPressVerify}>
+						<LinearGradient
+							colors={['#B24E9D', '#7E3BA1']}
+							start={{ x: 0, y: 0 }}
+							end={{ x: 1, y: 1 }}
+							style={{
+								borderRadius: 8,
+								flex: 1,
+								justifyContent: 'center',
+							}}
+						>
+							<VerifyAccountButtonText>Verify email</VerifyAccountButtonText>
+						</LinearGradient>
+					</VerifyButton>
+				</View>
+			) : (
+				<CreateAccountButton onPress={onSignUpPress}>
+					<LinearGradient
+						colors={['#B24E9D', '#7E3BA1']}
+						start={{ x: 0, y: 0 }}
+						end={{ x: 1, y: 1 }}
+						style={{
+							borderRadius: 8,
+							flex: 1,
+							justifyContent: 'center',
+						}}
+					>
+						<CreateAccountButtonText>Create account</CreateAccountButtonText>
+					</LinearGradient>
+				</CreateAccountButton>
 			)}
 		</FormComponent>
 	);
