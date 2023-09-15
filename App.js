@@ -1,6 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
+import { ClerkProvider } from '@clerk/clerk-expo';
+import Constants from 'expo-constants';
 import store from './redux/store';
 
 import HomeScreen from './screens/HomeScreen/HomeScreen.screen';
@@ -10,27 +12,31 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 	return (
-		<Provider store={store}>
-			<NavigationContainer>
-				<Stack.Navigator>
-					<Stack.Screen
-						name='Home'
-						component={HomeScreen}
-						options={{
-							title: '',
-							headerTransparent: true,
-						}}
-					/>
-					<Stack.Screen
-						name='SignUp'
-						component={SignUpScreen}
-						options={{
-							title: '',
-							headerTransparent: true,
-						}}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		</Provider>
+		<ClerkProvider
+			publishableKey={Constants.expoConfig.extra.clerkPublishableKey}
+		>
+			<Provider store={store}>
+				<NavigationContainer>
+					<Stack.Navigator>
+						<Stack.Screen
+							name='Home'
+							component={HomeScreen}
+							options={{
+								title: '',
+								headerTransparent: true,
+							}}
+						/>
+						<Stack.Screen
+							name='SignUp'
+							component={SignUpScreen}
+							options={{
+								title: '',
+								headerTransparent: true,
+							}}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</Provider>
+		</ClerkProvider>
 	);
 }
