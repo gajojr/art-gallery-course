@@ -32,6 +32,7 @@ export default function App() {
 							options={{
 								title: '',
 								headerTransparent: true,
+								headerBackVisible: false,
 							}}
 						/>
 					</Stack.Navigator>
