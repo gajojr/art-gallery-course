@@ -7,6 +7,7 @@ import store from './redux/store';
 
 import HomeScreen from './screens/HomeScreen/HomeScreen.screen';
 import SignUpScreen from './screens/SignUpScreen/SignUpScreen.screen';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,15 @@ export default function App() {
 						<Stack.Screen
 							name='SignUp'
 							component={SignUpScreen}
+							options={{
+								title: '',
+								headerTransparent: true,
+								headerBackVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name='Profile'
+							component={ProfileScreen}
 							options={{
 								title: '',
 								headerTransparent: true,
