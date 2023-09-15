@@ -1,4 +1,5 @@
-export enum UserType {
-	COLLECTOR = 'collector',
-	ARTIST = 'artist',
+export enum AuthType {
+	EMAIL = 'email',
+	GOOGLE = 'google',
+	APPLE = 'apple',
 }

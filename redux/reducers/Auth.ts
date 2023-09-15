@@ -1,26 +1,38 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { UserType } from '../types/Auth';
+import { AuthType } from '../types/Auth';
 
 const authSlice = createSlice({
 	name: 'auth',
 	initialState: {
 		authenticated: false,
-		userType: UserType.COLLECTOR,
+		authType: AuthType.EMAIL,
 		username: '',
+		emailAddress: '',
+		profileImgUrl: '',
+		fullname: '',
 	},
 	reducers: {
 		selectAuthenticated: (state, action) => {
 			state.authenticated = action.payload;
 		},
-		selectUserType: (state, action) => {
-			state.userType = action.payload;
+		selectAuthType: (state, action) => {
+			state.authType = action.payload;
 		},
 		selectUsername: (state, action) => {
 			state.username = action.payload;
 		},
+		selectEmailAddress: (state, action) => {
+			state.emailAddress = action.payload;
+		},
+		selectProfileImgUrl: (state, action) => {
+			state.profileImgUrl = action.payload;
+		},
+		selectFullname: (state, action) => {
+			state.fullname = action.payload;
+		},
 	},
 });
 
-export const { selectAuthenticated, selectUserType, selectUsername } =
+export const { selectAuthenticated, selectAuthType, selectUsername } =
 	authSlice.actions;
 export default authSlice.reducer;
