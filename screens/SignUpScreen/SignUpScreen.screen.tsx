@@ -4,11 +4,14 @@ import Header from '../../components/SignUpPageComponents/Header/Header.componen
 import Form from '../../components/SignUpPageComponents/Form/Form.component';
 import AuthButtons from '../../components/SignUpPageComponents/AuthButtons/AuthButtons.component';
 import LogInLink from '../../components/SignUpPageComponents/LogInLink/LogInLink.component';
+import { useNavigation } from '@react-navigation/native';
 
 const SignUp = () => {
+	const navigation = useNavigation();
+
 	return (
 		<Container>
-			<Header />
+			<Header navigation={navigation} />
 			<Form />
 			<AuthButtons />
 			<LogInLink />
