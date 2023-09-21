@@ -9,7 +9,7 @@ export const ComponentWrapper = styled.View`
 
 export const PreText = styled.Text`
 	color: #fff;
-	font-family: Poppins_300Regular;
+	font-family: Poppins_300Light;
 	font-size: 16px;
 `;
 
