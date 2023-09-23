@@ -1,9 +1,8 @@
-import { render, fireEvent, act, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, act, waitFor } from '../../../../test-utils';
 import GoogleAuthBtn from './GoogleAuthBtn.component';
 import { useOAuth } from '@clerk/clerk-expo';
 import { setDoc } from 'firebase/firestore';
 import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 jest.mock('react-native', () => {
 	const rn = jest.requireActual('react-native');
@@ -31,6 +30,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 
 jest.mock('react-redux', () => ({
+	...jest.requireActual('react-redux'),
 	useDispatch: () => jest.fn(),
 }));
 
