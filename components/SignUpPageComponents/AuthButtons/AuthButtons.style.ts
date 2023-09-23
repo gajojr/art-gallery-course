@@ -9,7 +9,9 @@ export const Wrapper = styled.View`
 	justify-content: space-between;
 `;
 
-export const ButtonWrapper = styled.TouchableOpacity`
+export const ButtonWrapper = styled.TouchableOpacity.attrs({
+	testID: 'Btn',
+})`
 	width: 48%;
 	display: flex;
 	align-items: center;
