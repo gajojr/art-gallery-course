@@ -86,7 +86,7 @@ describe('Form', () => {
 		});
 	});
 
-	it.only('should display an error message when password is too short', async () => {
+	it('should display an error message when password is too short', async () => {
 		(useSignUp as jest.Mock).mockImplementation(() => ({
 			isLoaded: true,
 			signUp: {
@@ -108,6 +108,113 @@ describe('Form', () => {
 
 		await waitFor(() => {
 			expect(getByTestId('passwordInputError')).toBeTruthy();
+		});
+	});
+
+	it('should sign up and redirect to profile page when all fields are filled and privacy policy is agreed', async () => {
+		const mockNavigation = { navigate: jest.fn() };
+		(useNavigation as jest.Mock).mockReturnValue(mockNavigation);
+
+		const mockDispatch = jest.fn();
+		(useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+
+		const mockSignUp = {
+			isLoaded: true,
+			signUp: {
+				create: jest.fn(),
+				prepareEmailAddressVerification: jest.fn(),
+				attemptEmailAddressVerification: jest.fn().mockReturnValue(true),
+			},
+			setActive: jest.fn(),
+		};
+		(useSignUp as jest.Mock).mockReturnValue(mockSignUp);
+
+		const { findByTestId } = render(<Form />);
+
+		const emailInput = await findByTestId('emailInput');
+		const fullnameInput = await findByTestId('fullnameInput');
+		const passwordInput = await findByTestId('passwordInput');
+
+		fireEvent.changeText(emailInput, 'test@example.com');
+		fireEvent.changeText(fullnameInput, 'John Doe');
+		fireEvent.changeText(passwordInput, 'password123');
+
+		const checkbox = await findByTestId('checkbox');
+		const createAccountBtn = await findByTestId('createAccountBtn');
+
+		fireEvent.press(checkbox);
+		fireEvent.press(createAccountBtn);
+
+		await waitFor(() => {
+			expect(mockSignUp.signUp.create).toHaveBeenCalledWith({
+				emailAddress: 'test@example.com',
+				password: 'password123',
+			});
+		});
+
+		await waitFor(async () => {
+			expect(await findByTestId('verifyBtn')).toBeTruthy();
+		});
+
+		const verifyBtn = await findByTestId('verifyBtn');
+		fireEvent.press(verifyBtn);
+
+		await waitFor(() => {
+			expect(mockNavigation.navigate).toHaveBeenCalledWith('Profile');
+		});
+	});
+
+	it('should dipslay an error message when there is an error in the sign-up process', async () => {
+		(useSignUp as jest.Mock).mockImplementation(() => ({
+			isLoaded: true,
+			signUp: {
+				create: jest.fn(() => Promise.reject(new Error('Sign-up failed'))),
+			},
+		}));
+
+		const { getByText, findByTestId } = render(<Form />);
+
+		const emailInput = await findByTestId('emailInput');
+		const fullnameInput = await findByTestId('fullnameInput');
+		const passwordInput = await findByTestId('passwordInput');
+		const checkbox = await findByTestId('checkbox');
+
+		fireEvent.changeText(emailInput, 'test@example.com');
+		fireEvent.changeText(fullnameInput, 'Test User');
+		fireEvent.changeText(passwordInput, 'password123');
+		fireEvent.press(checkbox);
+
+		fireEvent.press(getByText('Create account'));
+
+		await waitFor(() => {
+			expect(Alert.alert).toHaveBeenCalledWith('Error occurred, try again');
+		});
+	});
+
+	it('should display an alert message when privacy policy is not agreed', async () => {
+		(useSignUp as jest.Mock).mockImplementation(() => ({
+			isLoaded: true,
+			signUp: {
+				create: jest.fn(() => Promise.reject(new Error('Sign-up failed'))),
+			},
+		}));
+
+		const { getByText, findByTestId } = render(<Form />);
+
+		const emailInput = await findByTestId('emailInput');
+		const fullnameInput = await findByTestId('fullnameInput');
+		const passwordInput = await findByTestId('passwordInput');
+
+		fireEvent.changeText(emailInput, 'test@example.com');
+		fireEvent.changeText(fullnameInput, 'Test User');
+		fireEvent.changeText(passwordInput, 'password123');
+
+		fireEvent.press(getByText('Create account'));
+
+		await waitFor(() => {
+			expect(Alert.alert).toHaveBeenCalledWith(
+				'You must agree to privacy policy'
+			);
 		});
 	});
 });
