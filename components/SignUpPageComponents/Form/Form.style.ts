@@ -80,7 +80,9 @@ export const CheckboxText = styled.Text`
 	margin-left: 10px;
 `;
 
-export const CreateAccountButton = styled.TouchableOpacity`
+export const CreateAccountButton = styled.TouchableOpacity.attrs({
+	testID: 'createAccountBtn',
+})`
 	margin-top: 20px;
 	border-radius: 8px;
 	shadow-color: #000;
@@ -113,7 +115,9 @@ export const ConfirmationInput = styled.TextInput`
 	font-weight: bold;
 `;
 
-export const VerifyButton = styled.TouchableOpacity`
+export const VerifyButton = styled.TouchableOpacity.attrs({
+	testID: 'verifyBtn',
+})`
 	width: 100%;
 	height: 50px;
 	border-radius: 8px;

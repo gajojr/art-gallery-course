@@ -121,6 +121,7 @@ const Form = () => {
 
 			setPendingVerification(true);
 		} catch (err) {
+			Alert.alert('Error occurred, try again');
 			console.log(err);
 		}
 	};
@@ -162,6 +163,7 @@ const Form = () => {
 		<FormComponent>
 			<Label>Email</Label>
 			<Input
+				testID='emailInput'
 				editable={!pendingVerification}
 				value={email}
 				onChangeText={(email: string) => setEmail(email)}
@@ -175,10 +177,15 @@ const Form = () => {
 					backgroundColor: isFocusedEmail ? '#000' : 'transparent',
 				}}
 			/>
-			{emailInputError && <InputErrorText>{emailInputError}</InputErrorText>}
+			{emailInputError && (
+				<InputErrorText testID='emailInputError'>
+					{emailInputError}
+				</InputErrorText>
+			)}
 
 			<Label>Full Name</Label>
 			<Input
+				testID='fullnameInput'
 				editable={!pendingVerification}
 				value={fullname}
 				onChangeText={(fullname: string) => setFullname(fullname)}
@@ -193,12 +200,15 @@ const Form = () => {
 				}}
 			/>
 			{fullnameInputError && (
-				<InputErrorText>{fullnameInputError}</InputErrorText>
+				<InputErrorText testID='fullnameInputError'>
+					{fullnameInputError}
+				</InputErrorText>
 			)}
 
 			<Label>Password</Label>
 			<PasswordInputWrapper isFocused={isFocusedPassword}>
 				<Input
+					testID='passwordInput'
 					editable={!pendingVerification}
 					value={password}
 					onChangeText={(password: string) => setPassoword(password)}
@@ -227,11 +237,16 @@ const Form = () => {
 				</TouchableOpacity>
 			</PasswordInputWrapper>
 			{passwordInputError && (
-				<InputErrorText>{passwordInputError}</InputErrorText>
+				<InputErrorText testID='passwordInputError'>
+					{passwordInputError}
+				</InputErrorText>
 			)}
 
 			<CheckboxContainer>
-				<TouchableOpacity onPress={() => setIsChecked(!isChecked)}>
+				<TouchableOpacity
+					testID='checkbox'
+					onPress={() => setIsChecked(!isChecked)}
+				>
 					<View
 						style={{
 							height: 24,
