@@ -1,9 +1,12 @@
 import { TouchableOpacity } from 'react-native';
 import { AuthBtn, AuthBtnText } from './LogInBtn.style';
+import { useNavigation } from '@react-navigation/native';
 
 const LogInBtn = () => {
+	const navigation = useNavigation();
+
 	return (
-		<TouchableOpacity>
+		<TouchableOpacity onPress={() => navigation.navigate('SignIn' as never)}>
 			<AuthBtn
 				colors={['#B24E9D', '#7E3BA1']}
 				start={{ x: 0, y: 0 }}

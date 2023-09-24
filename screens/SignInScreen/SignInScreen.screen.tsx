@@ -11,7 +11,7 @@ const SignUp = () => {
 
 	return (
 		<Container>
-			<Header />
+			<Header navigation={navigation} />
 			<Form />
 			<AuthButton />
 			<SignUpLink />
