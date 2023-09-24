@@ -2,8 +2,8 @@ import styled from 'styled-components/native';
 import { TextInputProps, ViewProps } from 'react-native';
 
 export const FormComponent = styled.View`
-    margin-top: 50px;
-    width: 84%:
+	margin-top: 50px;
+	width: 84%;
 `;
 
 export const Label = styled.Text`
