@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { Wrapper } from './AuthButtons.style';
+import GoogleAuthBtn from './GoogleAuthBtn/GoogleAuthBtn.component';
 
 const AuthButton = () => {
 	return (
-		<View>
-			<Text>AuthButton</Text>
-		</View>
+		<Wrapper>
+			<GoogleAuthBtn />
+		</Wrapper>
 	);
 };
 
