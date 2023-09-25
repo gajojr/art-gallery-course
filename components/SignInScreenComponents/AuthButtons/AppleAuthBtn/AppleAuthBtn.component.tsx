@@ -19,13 +19,13 @@ import { useEffect } from 'react';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const GoogleAuthBtn = () => {
+const AppleAuthBtn = () => {
 	useWarmUpBrowser();
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
 	const user = useUser();
 	const { startOAuthFlow } = useOAuth({
-		strategy: 'oauth_google',
+		strategy: 'oauth_apple',
 	});
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ const GoogleAuthBtn = () => {
 				if (docSnap.exists()) {
 					const data = docSnap.data();
 					dispatch(selectAuthenticated(true));
-					dispatch(selectAuthType('google'));
+					dispatch(selectAuthType('apple'));
 					dispatch(selectEmailAddress(email));
 					dispatch(selectFullname(data.fullname));
 					dispatch(selectProfileImgUrl(data.profileImgUrl));
@@ -57,7 +57,7 @@ const GoogleAuthBtn = () => {
 		})();
 	}, [user]);
 
-	const googleSingin = async () => {
+	const appleSignIn = async () => {
 		try {
 			const { createdSessionId, setActive } = await startOAuthFlow();
 
@@ -73,9 +73,9 @@ const GoogleAuthBtn = () => {
 	};
 
 	return (
-		<ButtonWrapper onPress={googleSingin}>
+		<ButtonWrapper onPress={appleSignIn}>
 			<Icon
-				name='google'
+				name='apple1'
 				color='#fff'
 				size={30}
 			/>
@@ -83,4 +83,4 @@ const GoogleAuthBtn = () => {
 	);
 };
 
-export default GoogleAuthBtn;
+export default AppleAuthBtn;
