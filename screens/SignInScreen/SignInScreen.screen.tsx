@@ -14,7 +14,7 @@ const SignUp = () => {
 			<Header navigation={navigation} />
 			<Form />
 			<AuthButton />
-			<SignUpLink />
+			<SignUpLink navigation={navigation} />
 		</Container>
 	);
 };

@@ -1,11 +1,40 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import { NavigationProp } from '@react-navigation/native';
+import {
+	ComponentWrapper,
+	LinkText,
+	LinkWrapper,
+	PreText,
+} from './SignUpLink.style';
+import {
+	useFonts,
+	Poppins_300Light,
+	Poppins_400Regular,
+} from '@expo-google-fonts/poppins';
 
-const SignUpLink = () => {
+const SignUpLink = ({
+	navigation,
+}: {
+	navigation:
+		| NavigationProp<ReactNavigation.RootParamList>
+		| { navigate: Function }
+		| undefined;
+}) => {
+	const [loaded, error] = useFonts({
+		Poppins_300Light,
+		Poppins_400Regular,
+	});
+
+	if (!loaded || error) {
+		return <></>;
+	}
+
 	return (
-		<View>
-			<Text>SignUpLink.component</Text>
-		</View>
+		<ComponentWrapper>
+			<PreText>Don't have an account?</PreText>
+			<LinkWrapper onPress={() => navigation?.navigate('SignUp' as never)}>
+				<LinkText>Sign Up</LinkText>
+			</LinkWrapper>
+		</ComponentWrapper>
 	);
 };
 
