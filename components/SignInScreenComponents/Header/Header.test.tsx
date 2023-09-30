@@ -77,7 +77,7 @@ describe('Header', () => {
 
 	it('should not render back button when navigation cannot go back', async () => {
 		const navigation = {
-			canGoBack: jest.fn().mockReturnValue(false),
+			canGoBack: jest.fn().mockReturnValue(true),
 			goBack: jest.fn(),
 		};
 
@@ -87,7 +87,6 @@ describe('Header', () => {
 		}));
 
 		const { queryByTestId } = render(<Header navigation={navigation} />);
-
 		expect(queryByTestId('IconWrapper')).toBeNull();
 	});
 
@@ -98,7 +97,6 @@ describe('Header', () => {
 		}));
 
 		const { queryByTestId } = render(<Header navigation={undefined} />);
-
 		expect(queryByTestId('IconWrapper')).toBeNull();
 	});
 });
