@@ -51,7 +51,7 @@ const GoogleAuthBtn = () => {
 					console.log('No such document!');
 				}
 			} catch (err) {
-				console.error('Failed to store user data:', err);
+				console.error('Failed to get user data:', err);
 				return;
 			}
 		})();
