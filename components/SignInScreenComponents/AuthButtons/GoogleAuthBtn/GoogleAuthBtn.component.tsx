@@ -42,7 +42,7 @@ const GoogleAuthBtn = () => {
 				const email = user.user?.primaryEmailAddress?.emailAddress;
 				const docRef = doc(db, 'users', email as string);
 				const docSnap = await getDoc(docRef);
-				if (docSnap.exists()) {
+				if (docSnap?.exists()) {
 					const data = docSnap.data();
 					dispatch(selectAuthenticated(true));
 					dispatch(selectAuthType('google'));
@@ -54,7 +54,7 @@ const GoogleAuthBtn = () => {
 					dispatch(selectTwitter(data.twitter));
 					dispatch(selectInstagram(data.instagram));
 					dispatch(selectWebsite(data.website));
-					navigation.navigate('Profile' as never);
+					navigation?.navigate('Profile' as never);
 				} else {
 					console.log('No such document!');
 				}

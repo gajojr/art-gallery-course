@@ -10,6 +10,9 @@ jest.mock('react-native', () => {
 	return rn;
 });
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 jest.mock('@clerk/clerk-expo', () => ({
 	useOAuth: jest.fn(),
 	useUser: jest.fn(),
@@ -20,6 +23,13 @@ jest.mock('firebase/firestore', () => ({
 	doc: jest.fn(),
 	getFirestore: jest.fn(),
 }));
+
+jest.mock('firebase/compat/app', () => ({
+	apps: [],
+	initializeApp: jest.fn(),
+}));
+
+jest.mock('firebase/compat/storage', () => {});
 
 jest.mock('firebase/app', () => ({
 	initializeApp: jest.fn(),

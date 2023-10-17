@@ -1,6 +1,13 @@
 import { fireEvent, render } from '../../../test-utils';
 import SignUpLink from './SignUpLink.component';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
+jest.mock('@expo-google-fonts/poppins', () => ({
+	useFonts: jest.fn().mockReturnValue([true, null]),
+}));
+
 describe('SignUpLink', () => {
 	it(`should render a component with a "Sign Up" link and a "Don't have an account?" text`, async () => {
 		const { findByText } = render(<SignUpLink navigation={undefined} />);

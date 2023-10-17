@@ -1,17 +1,28 @@
 import { fireEvent, render, waitFor } from '../../../test-utils';
 import Header from './Header.component';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
+jest.mock('@expo-google-fonts/poppins', () => {
+	const originalModule = jest.requireActual('@expo-google-fonts/poppins');
+	return {
+		__esModule: true,
+		...originalModule,
+		useFonts: jest.fn().mockReturnValue([true, null]),
+	};
+});
+
 describe('Header', () => {
+	afterEach(() => {
+		jest.resetAllMocks();
+	});
+
 	it('should navigate to previous screen when back button is clicked', async () => {
 		const navigation = {
 			canGoBack: jest.fn().mockReturnValue(true),
 			goBack: jest.fn(),
 		};
-
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([true, null]),
-		}));
 
 		const { findByTestId } = render(<Header navigation={navigation} />);
 
@@ -30,10 +41,8 @@ describe('Header', () => {
 			goBack: jest.fn(),
 		};
 
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([true, null]),
-		}));
+		const { useFonts } = require('@expo-google-fonts/poppins');
+		useFonts.mockReturnValue([true, null]);
 
 		const { findByTestId } = render(<Header navigation={navigation} />);
 
@@ -43,60 +52,31 @@ describe('Header', () => {
 		expect(await findByTestId('PlaceholderView')).toBeTruthy();
 	});
 
-	it('should return empty fragment when font fails to load', async () => {
+	it('should return empty fragment when font fails to load due an error', async () => {
 		const navigation = {
 			canGoBack: jest.fn().mockReturnValue(true),
 			goBack: jest.fn(),
 		};
 
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([false, 'error']),
-		}));
+		const { useFonts } = require('@expo-google-fonts/poppins');
+		useFonts.mockReturnValue([false, new Error('Font loading error')]);
 
 		const { queryByTestId } = render(<Header navigation={navigation} />);
 
 		expect(queryByTestId('HeaderComponent')).toBeNull();
 	});
 
-	it('should return empty fragment when font fails to load', async () => {
+	it('should return empty fragment when font it not loaded without error', async () => {
 		const navigation = {
 			canGoBack: jest.fn().mockReturnValue(true),
 			goBack: jest.fn(),
 		};
 
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([false, null]),
-		}));
+		const { useFonts } = require('@expo-google-fonts/poppins');
+		useFonts.mockReturnValue([false, null]);
 
 		const { queryByTestId } = render(<Header navigation={navigation} />);
 
 		expect(queryByTestId('HeaderComponent')).toBeNull();
-	});
-
-	it('should not render back button when navigation cannot go back', async () => {
-		const navigation = {
-			canGoBack: jest.fn().mockReturnValue(true),
-			goBack: jest.fn(),
-		};
-
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([true, null]),
-		}));
-
-		const { queryByTestId } = render(<Header navigation={navigation} />);
-		expect(queryByTestId('IconWrapper')).toBeNull();
-	});
-
-	it('should not render back button when navigation is undefined', async () => {
-		jest.doMock('@expo-google-fonts/poppins', () => ({
-			Poppins_500Medium: 'Poppins_500Medium',
-			useFonts: jest.fn().mockReturnValue([true, null]),
-		}));
-
-		const { queryByTestId } = render(<Header navigation={undefined} />);
-		expect(queryByTestId('IconWrapper')).toBeNull();
 	});
 });

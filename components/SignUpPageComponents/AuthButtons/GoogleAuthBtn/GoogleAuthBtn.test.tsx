@@ -4,6 +4,9 @@ import { useOAuth } from '@clerk/clerk-expo';
 import { setDoc } from 'firebase/firestore';
 import { Alert } from 'react-native';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 jest.mock('react-native', () => {
 	const rn = jest.requireActual('react-native');
 	rn.Alert.alert = jest.fn();
@@ -19,6 +22,13 @@ jest.mock('firebase/firestore', () => ({
 	doc: jest.fn(),
 	getFirestore: jest.fn(),
 }));
+
+jest.mock('firebase/compat/app', () => ({
+	apps: [],
+	initializeApp: jest.fn(),
+}));
+
+jest.mock('firebase/compat/storage', () => {});
 
 jest.mock('firebase/app', () => ({
 	initializeApp: jest.fn(),

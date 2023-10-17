@@ -4,6 +4,9 @@ import { useOAuth } from '@clerk/clerk-expo';
 import { setDoc } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
 jest.mock('@clerk/clerk-expo', () => ({
 	useOAuth: jest.fn(),
 }));
@@ -13,6 +16,13 @@ jest.mock('firebase/firestore', () => ({
 	doc: jest.fn(),
 	getFirestore: jest.fn(),
 }));
+
+jest.mock('firebase/compat/app', () => ({
+	apps: [],
+	initializeApp: jest.fn(),
+}));
+
+jest.mock('firebase/compat/storage', () => {});
 
 jest.mock('firebase/app', () => ({
 	initializeApp: jest.fn(),

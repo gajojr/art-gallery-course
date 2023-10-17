@@ -1,6 +1,13 @@
 import { fireEvent, render } from '../../../test-utils';
 import LogInLink from './LogInLink.component';
 
+jest.mock('expo-font');
+jest.mock('expo-asset');
+
+jest.mock('@expo-google-fonts/poppins', () => ({
+	useFonts: jest.fn().mockReturnValue([true, null]),
+}));
+
 describe('LogInLink', () => {
 	it('should render a component with a "Log In" link and a "Already have an account" text', async () => {
 		const { findByText } = render(<LogInLink navigation={undefined} />);
