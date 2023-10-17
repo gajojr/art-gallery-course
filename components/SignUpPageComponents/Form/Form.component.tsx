@@ -145,6 +145,10 @@ const Form = () => {
 			profileImgUrl: '',
 			authType: 'email',
 			creationDate: new Date(),
+			bio: '',
+			twitter: '',
+			instagram: '',
+			website: '',
 		});
 
 		dispatch(selectAuthType('email'));

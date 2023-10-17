@@ -10,6 +10,10 @@ const authSlice = createSlice({
 		emailAddress: '',
 		profileImgUrl: '',
 		fullname: '',
+		bio: '',
+		twitter: '',
+		instagram: '',
+		website: '',
 	},
 	reducers: {
 		selectAuthenticated: (state, action) => {
@@ -30,6 +34,18 @@ const authSlice = createSlice({
 		selectFullname: (state, action) => {
 			state.fullname = action.payload;
 		},
+		selectBio: (state, action) => {
+			state.bio = action.payload;
+		},
+		selectTwitter: (state, action) => {
+			state.twitter = action.payload;
+		},
+		selectInstagram: (state, action) => {
+			state.instagram = action.payload;
+		},
+		selectWebsite: (state, action) => {
+			state.website = action.payload;
+		},
 	},
 });
 
@@ -40,5 +56,9 @@ export const {
 	selectEmailAddress,
 	selectProfileImgUrl,
 	selectFullname,
+	selectBio,
+	selectTwitter,
+	selectInstagram,
+	selectWebsite,
 } = authSlice.actions;
 export default authSlice.reducer;

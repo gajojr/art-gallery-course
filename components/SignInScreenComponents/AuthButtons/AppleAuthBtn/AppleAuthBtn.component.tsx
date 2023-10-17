@@ -9,10 +9,14 @@ import { useDispatch } from 'react-redux';
 import {
 	selectAuthType,
 	selectAuthenticated,
+	selectBio,
 	selectEmailAddress,
 	selectFullname,
+	selectInstagram,
 	selectProfileImgUrl,
+	selectTwitter,
 	selectUsername,
+	selectWebsite,
 } from '../../../../redux/reducers/Auth';
 import { Alert } from 'react-native';
 import { useEffect } from 'react';
@@ -46,6 +50,10 @@ const AppleAuthBtn = () => {
 					dispatch(selectFullname(data.fullname));
 					dispatch(selectProfileImgUrl(data.profileImgUrl));
 					dispatch(selectUsername(data.username));
+					dispatch(selectBio(data.bio));
+					dispatch(selectTwitter(data.twitter));
+					dispatch(selectInstagram(data.instagram));
+					dispatch(selectWebsite(data.website));
 					navigation.navigate('Profile' as never);
 				} else {
 					console.log('No such document!');
