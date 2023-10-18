@@ -1,4 +1,3 @@
-import { SafeAreaView, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import {
@@ -13,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Header from '../../components/ProfileScreenComponents/Header/Header.component';
+import ProfilePreview from '../../components/ProfileScreenComponents/ProfilePreview/ProfilePreview.component';
 
 const ProfileScreen = () => {
 	const navigation = useNavigation();
@@ -48,11 +48,9 @@ const ProfileScreen = () => {
 						<ButtonText>Edit</ButtonText>
 					</EditProfileOptions>
 				</OptionsWrapper>
-				{/* {mode === 'edit' ? (
-					<EditProfileForm user={userInfo} />
-				) : (
+				{mode === 'edit' ? null : ( // <EditProfileForm user={userInfo} />
 					<ProfilePreview user={userInfo} />
-				)} */}
+				)}
 			</FormWrapper>
 		</Container>
 	);
