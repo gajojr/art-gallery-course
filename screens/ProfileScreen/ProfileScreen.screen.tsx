@@ -12,6 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import Header from '../../components/ProfileScreenComponents/Header/Header.component';
 
 const ProfileScreen = () => {
 	const navigation = useNavigation();
@@ -27,7 +28,7 @@ const ProfileScreen = () => {
 
 	return (
 		<Container>
-			{/* <Header navigation={navigation}/> */}
+			<Header navigation={navigation} />
 			<FormWrapper
 				contentContainerStyle={{
 					alignItems: 'center',
@@ -44,16 +45,14 @@ const ProfileScreen = () => {
 						onPress={() => setMode('edit')}
 						active={mode === 'edit'}
 					>
-						<ButtonText>Profile</ButtonText>
+						<ButtonText>Edit</ButtonText>
 					</EditProfileOptions>
 				</OptionsWrapper>
-				{/* {
-                    mode === 'edit' ? (
-                        <EditProfileForm user={userInfo}/>
-                    ) : (
-                        <ProfilePreview user={userInfo}/>
-                    )
-                } */}
+				{/* {mode === 'edit' ? (
+					<EditProfileForm user={userInfo} />
+				) : (
+					<ProfilePreview user={userInfo} />
+				)} */}
 			</FormWrapper>
 		</Container>
 	);
