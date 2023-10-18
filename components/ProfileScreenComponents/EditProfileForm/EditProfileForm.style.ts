@@ -19,7 +19,7 @@ export const ImageContainer = styled.View`
 	margin-top: 20px;
 	width: 160px;
 	height: 160px;
-	background-color: tranparent;
+	background-color: transparent;
 	border-radius: 80px;
 	align-self: center;
 	border-color: #9263ff;
@@ -96,20 +96,20 @@ export const SocialMedia = styled.View`
 `;
 
 export const SocialMediaEntity = styled.View`
-    padding: 5px 10px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-width: 1px;
-    border-color: #fff;
-    border-radius: 5px;
-    margin-bottom 10px;
+	padding: 5px 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-width: 1px;
+	border-color: #fff;
+	border-radius: 5px;
+	margin-bottom: 10px;
 `;
 
 export const SocialMediaIcon = styled(Icon)``;
 
-export const SocialMediaIcon2 = styled(Icon)``;
+export const SocialMediaIcon2 = styled(Icon2)``;
 
 export const SocialMediaInput = styled.TextInput.attrs({
 	autoCapitalize: 'none',

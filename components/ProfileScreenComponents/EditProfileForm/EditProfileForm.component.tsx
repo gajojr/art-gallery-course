@@ -24,7 +24,7 @@ import {
 	Poppins_500Medium,
 	Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
-import { useEffect, useState } from 'react';
+import { isValidElement, useEffect, useState } from 'react';
 import {
 	ActivityIndicator,
 	Alert,
@@ -120,15 +120,230 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 		}
 	}, []);
 
-	const handleUpload = async () => {};
+	const handleUpload = async () => {
+		const result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
 
-	const updateUser = async (profileImgUrl: string) => {};
+		if (!result.canceled) {
+			setUploadeImageUrl({ uri: result.assets[0].uri });
+			setImageUri({ uri: result.assets[0].uri });
+		}
+	};
 
-	const validateData = () => {};
+	const updateUser = async (profileImgUrl: string) => {
+		try {
+			const userRef = doc(db, 'users', email);
 
-	const checkUsername = async (desiredUsername: string) => {};
+			await updateDoc(userRef, {
+				bio,
+				emailAddress: email,
+				fullname,
+				instagram,
+				profileImgUrl: profileImgUrl === '/profile/' ? '' : profileImgUrl,
+				twitter,
+				username,
+				website,
+			});
 
-	const onSave = () => {};
+			console.log('User updated successfully');
+			Alert.alert('Profile updated');
+		} catch (err) {
+			console.log('Error updating the user: ', error);
+			Alert.alert('Failed to update the user');
+		}
+	};
+
+	const validateData = () => {
+		let errors: {
+			username?: string;
+			fullname?: string;
+			bio?: string;
+			twitter?: string;
+			instagram?: string;
+			website?: string;
+		} = {};
+
+		if (username) {
+			const usernameRegex = /^[a-zA-Z0-9_]+$/;
+			if (!usernameRegex.test(username)) {
+				errors.username =
+					'Username can only contain letters, number and underscores';
+				setUsernameError(
+					'Username can only contain letters, number and underscores'
+				);
+			}
+		}
+
+		if (fullname) {
+			const fullNamePattern = /^[a-zA-Z\s]+$/;
+
+			if (
+				!fullNamePattern.test(fullname) ||
+				fullname.length < 3 ||
+				fullname.length > 50
+			) {
+				errors.fullname =
+					'Fullname must contain only letters and have a length between 3 and 50';
+				setFullnameError(
+					'Fullname must contain only letters and have a length between 3 and 50'
+				);
+			}
+		}
+
+		if (bio) {
+			if (bio.length > 200) {
+				errors.bio = 'Bio cannont be more than 200 characters';
+				setBioError('Bio cannont be more than 200 characters');
+			}
+		}
+
+		if (twitter) {
+			const twitterRegex = /^[a-zA-Z0-9_]{1,15}$/;
+			if (!twitterRegex.test(twitter)) {
+				errors.twitter = 'Invalid tiwtter handle';
+				setTwitterError('Invalid tiwtter handle');
+			}
+		}
+
+		if (instagram) {
+			const instagramRegex = /^[a-zA-Z0-9_.]+$/;
+			if (!instagramRegex.test(instagram)) {
+				errors.instagram = 'Invalid Instagram username.';
+				setInstagramError('Invalid Instagram handle.');
+			}
+		}
+
+		if (website) {
+			const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+			if (!urlRegex.test(website)) {
+				errors.website = 'Invalid URL.';
+				setWebsiteError('Invalid URL.');
+			}
+		}
+
+		return {
+			isValid: Object.keys(errors).length === 0,
+		};
+	};
+
+	const checkUsername = async (desiredUsername: string) => {
+		if (!desiredUsername.length) {
+			return;
+		}
+
+		let valid = true;
+
+		const usersCollection = collection(db, 'users');
+		const q = query(usersCollection, where('username', '==', desiredUsername));
+		const querySnapshot = await getDocs(q);
+
+		if (querySnapshot.docs.length) {
+			if (querySnapshot.docs[0].data().emailAddress !== email) {
+				valid = false;
+			}
+		}
+
+		return valid;
+	};
+
+	const onSave = async () => {
+		setUsernameError('');
+		setFullnameError('');
+		setBioError('');
+		setTwitterError('');
+		setInstagramError('');
+		setWebsiteError('');
+		setIsUpdatePending(true);
+
+		const { isValid } = validateData();
+		if (!isValid) {
+			setIsUpdatePending(false);
+			return;
+		}
+
+		if (!(await checkUsername(username))) {
+			setIsUpdatePending(false);
+			Alert.alert('Username already exists');
+			return;
+		}
+
+		try {
+			let imageUrl: string;
+
+			if (typeof uploadImageUrl === 'object' && 'uri' in uploadImageUrl) {
+				imageUrl = uploadImageUrl.uri;
+			} else if (typeof uploadImageUrl === 'string') {
+				imageUrl = uploadImageUrl;
+			} else {
+				imageUrl = '';
+			}
+
+			let filename = '';
+			if (imageUrl.length && user.profileImgUrl !== imageUrl) {
+				const { uri } = await FileSystem.getInfoAsync(imageUrl);
+				const blob = await new Promise((resolve, reject) => {
+					const xhr = new XMLHttpRequest();
+					xhr.onload = () => {
+						resolve(xhr.response);
+					};
+					xhr.onerror = () => {
+						reject(new TypeError('Network request failed'));
+					};
+					xhr.responseType = 'blob';
+					xhr.open('GET', uri, true);
+					xhr.send(null);
+				});
+
+				filename = (imageUrl as string).substring(
+					(imageUrl as string).lastIndexOf('/') + 1
+				);
+				const reference = firebase.storage().ref('/profile').child(filename);
+
+				if (filename.length) {
+					const res = await reference.put(blob as Blob);
+					console.log(res);
+				}
+			}
+
+			if (
+				user.profileImgUrl.length &&
+				user.profileImgUrl !== `/profile/${filename}`
+			) {
+				const storage = getStorage();
+				const fileRef = ref(storage, user.profileImgUrl);
+
+				if (user.profileImgUrl.length && user.profileImgUrl !== '/profile/') {
+					deleteObject(fileRef)
+						.then(() => {
+							console.log('File deleted successfully');
+						})
+						.catch((error) => {
+							console.error('Error deleting file: ', error);
+						});
+				}
+			}
+
+			await updateUser(`/profile/${filename}`);
+
+			dispatch(selectBio(bio));
+			dispatch(selectFullname(fullname));
+			dispatch(selectInstagram(instagram));
+			dispatch(selectProfileImgUrl(`/profile/${filename}`));
+			dispatch(selectTwitter(twitter));
+			dispatch(selectUsername(username));
+			dispatch(selectWebsite(website));
+			Alert.alert('Profile updated');
+		} catch (err) {
+			setIsUpdatePending(false);
+			console.log(err);
+		}
+
+		setIsUpdatePending(false);
+	};
 
 	if (!loaded || error) {
 		return <></>;
@@ -225,7 +440,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 				)}
 				<SocialMediaEntity>
 					<SocialMediaIcon
-						name='instgram'
+						name='instagram'
 						color='#ffffffbd'
 						size={40}
 					/>
@@ -286,3 +501,5 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 		</Wrapper>
 	);
 };
+
+export default EditProfileForm;

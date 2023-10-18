@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Header from '../../components/ProfileScreenComponents/Header/Header.component';
 import ProfilePreview from '../../components/ProfileScreenComponents/ProfilePreview/ProfilePreview.component';
+import EditProfileForm from '../../components/ProfileScreenComponents/EditProfileForm/EditProfileForm.component';
 
 const ProfileScreen = () => {
 	const navigation = useNavigation();
@@ -48,7 +49,9 @@ const ProfileScreen = () => {
 						<ButtonText>Edit</ButtonText>
 					</EditProfileOptions>
 				</OptionsWrapper>
-				{mode === 'edit' ? null : ( // <EditProfileForm user={userInfo} />
+				{mode === 'edit' ? (
+					<EditProfileForm user={userInfo} />
+				) : (
 					<ProfilePreview user={userInfo} />
 				)}
 			</FormWrapper>
