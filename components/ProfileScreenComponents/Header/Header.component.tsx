@@ -41,7 +41,7 @@ const Header = ({
 					size={24}
 				/>
 			</IconWrapper>
-			<MenuIconWrapper>
+			<MenuIconWrapper onPress={() => setMenuOpen(!menuOpen)}>
 				<MenuIcon
 					source={
 						menuOpen

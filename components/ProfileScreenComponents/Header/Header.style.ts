@@ -25,4 +25,6 @@ export const ArrowIcon = styled(Icon).attrs({
 
 export const MenuIconWrapper = styled.TouchableOpacity``;
 
-export const MenuIcon = styled.Image``;
+export const MenuIcon = styled.Image.attrs({
+	testID: 'MenuIcon',
+})``;
