@@ -25,7 +25,9 @@ export const ImageContainer = styled.View`
 	shadow-radius: 4px;
 `;
 
-export const StyledImage = styled.Image`
+export const StyledImage = styled.Image.attrs({
+	testID: 'profileImg',
+})`
 	width: 100%;
 	height: 100%;
 	border-radius: 80px;
