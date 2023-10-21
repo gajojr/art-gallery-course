@@ -80,7 +80,9 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 	const [uploadImageUrl, setUploadeImageUrl] = useState<
 		string | { uri: string }
 	>(user.profileImgUrl);
-	const [imageUri, setImageUri] = useState<string | { uri: string }>('');
+	const [imageUri, setImageUri] = useState<string | { uri: string }>(
+		require('../../../assets/images/profile-img-placeholder.png')
+	);
 	const [loaded, error] = useFonts({
 		Poppins_300Light,
 		Poppins_400Regular,
@@ -113,10 +115,6 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 			};
 
 			fetchImage();
-		} else {
-			setImageUri(
-				require('../../../assets/images/profile-img-placeholder.png')
-			);
 		}
 	}, []);
 
@@ -204,24 +202,24 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 		if (twitter) {
 			const twitterRegex = /^[a-zA-Z0-9_]{1,15}$/;
 			if (!twitterRegex.test(twitter)) {
-				errors.twitter = 'Invalid tiwtter handle';
-				setTwitterError('Invalid tiwtter handle');
+				errors.twitter = 'Invalid twitter handle';
+				setTwitterError('Invalid twitter handle');
 			}
 		}
 
 		if (instagram) {
 			const instagramRegex = /^[a-zA-Z0-9_.]+$/;
 			if (!instagramRegex.test(instagram)) {
-				errors.instagram = 'Invalid Instagram username.';
-				setInstagramError('Invalid Instagram handle.');
+				errors.instagram = 'Invalid Instagram handle';
+				setInstagramError('Invalid Instagram handle');
 			}
 		}
 
 		if (website) {
 			const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 			if (!urlRegex.test(website)) {
-				errors.website = 'Invalid URL.';
-				setWebsiteError('Invalid URL.');
+				errors.website = 'Invalid URL';
+				setWebsiteError('Invalid URL');
 			}
 		}
 
@@ -352,9 +350,15 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 	return (
 		<Wrapper>
 			<Title>Profile Details</Title>
-			<TouchableOpacity onPress={handleUpload}>
+			<TouchableOpacity
+				testID='uploadImageButton'
+				onPress={handleUpload}
+			>
 				<ImageContainer>
-					<StyledImage source={imageUri as ImageSourcePropType} />
+					<StyledImage
+						testID='profileImage'
+						source={imageUri as ImageSourcePropType}
+					/>
 					{!uploadImageUrl && (
 						<UploadIconContainer>
 							<Icon
@@ -380,6 +384,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 			) : null}
 			<Label>Username:</Label>
 			<TextInput
+				testID='usernameInput'
 				placeholder='Enter username'
 				value={username}
 				onChangeText={setUsername}
@@ -391,6 +396,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 			)}
 			<Label>Fullname:</Label>
 			<TextInput
+				testID='fullnameInput'
 				placeholder='Enter fullname'
 				value={fullname}
 				onChangeText={setFullname}
@@ -402,12 +408,14 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 			)}
 			<Label>Email:</Label>
 			<TextInput
+				testID='emailInput'
 				placeholder='Enter email'
 				value={email}
 				editable={false}
 			/>
 			<Label>Bio:</Label>
 			<TextInput
+				testID='bioInput'
 				placeholder='Tell us more about yourself'
 				value={bio}
 				onChangeText={setBio}
@@ -428,6 +436,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 						size={40}
 					/>
 					<SocialMediaInput
+						testID='twitterInput'
 						placeholder='@username'
 						value={twitter}
 						onChangeText={setTwitter}
@@ -445,6 +454,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 						size={40}
 					/>
 					<SocialMediaInput
+						testID='instagramInput'
 						placeholder='@username'
 						value={instagram}
 						onChangeText={setInstagram}
@@ -462,6 +472,7 @@ const EditProfileForm = ({ user }: { user: IUser }) => {
 						size={40}
 					/>
 					<SocialMediaInput
+						testID='websiteInput'
 						placeholder={'website.com'}
 						value={website}
 						onChangeText={setWebsite}
