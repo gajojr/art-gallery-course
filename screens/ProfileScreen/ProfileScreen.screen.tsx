@@ -1,4 +1,8 @@
 import { useSelector } from 'react-redux';
+import {
+	DrawerContentComponentProps,
+	createDrawerNavigator,
+} from '@react-navigation/drawer';
 import { RootState } from '../../redux/store';
 import {
 	ButtonText,
@@ -14,9 +18,11 @@ import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import Header from '../../components/ProfileScreenComponents/Header/Header.component';
 import ProfilePreview from '../../components/ProfileScreenComponents/ProfilePreview/ProfilePreview.component';
 import EditProfileForm from '../../components/ProfileScreenComponents/EditProfileForm/EditProfileForm.component';
+import MenuScreen from '../../components/MenuScreen/MenuScreen.screen';
+
+const Drawer = createDrawerNavigator();
 
 const ProfileScreen = () => {
-	const navigation = useNavigation();
 	const userInfo = useSelector((state: RootState) => state.auth);
 	const [mode, setMode] = useState('view');
 	const [loaded, error] = useFonts({
@@ -29,7 +35,7 @@ const ProfileScreen = () => {
 
 	return (
 		<Container>
-			<Header navigation={navigation} />
+			<Header />
 			<FormWrapper
 				contentContainerStyle={{
 					alignItems: 'center',
@@ -59,4 +65,26 @@ const ProfileScreen = () => {
 	);
 };
 
-export default ProfileScreen;
+const DrawerContent = (props: DrawerContentComponentProps) => {
+	return <MenuScreen {...props} />;
+};
+
+const Wrapper = () => {
+	return (
+		<Drawer.Navigator
+			initialRouteName='Profile'
+			screenOptions={{
+				drawerPosition: 'right',
+				headerShown: false,
+			}}
+			drawerContent={(props) => <DrawerContent {...props} />}
+		>
+			<Drawer.Screen
+				name='Profile'
+				component={ProfileScreen}
+			/>
+		</Drawer.Navigator>
+	);
+};
+
+export default Wrapper;

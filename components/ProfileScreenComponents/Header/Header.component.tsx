@@ -6,21 +6,15 @@ import {
 	MenuIconWrapper,
 } from './Header.style';
 import { Poppins_500Medium, useFonts } from '@expo-google-fonts/poppins';
-import { NavigationProp } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 
-const Header = ({
-	navigation,
-}: {
-	navigation:
-		| NavigationProp<ReactNavigation.RootParamList>
-		| { canGoBack: Function; goBack: Function }
-		| undefined;
-}) => {
+const Header = () => {
+	const navigation = useNavigation<DrawerNavigationProp<any>>();
 	const [loaded, error] = useFonts({
 		Poppins_500Medium,
 	});
-	const [menuOpen, setMenuOpen] = useState(false);
 
 	if (error || !loaded) {
 		return <></>;
@@ -41,14 +35,12 @@ const Header = ({
 					size={24}
 				/>
 			</IconWrapper>
-			<MenuIconWrapper onPress={() => setMenuOpen(!menuOpen)}>
-				<MenuIcon
-					source={
-						menuOpen
-							? require('../../../assets/images/menu-open.png')
-							: require('../../../assets/images/menu-close.png')
-					}
-				/>
+			<MenuIconWrapper
+				onPress={() => {
+					navigation?.openDrawer();
+				}}
+			>
+				<MenuIcon source={require('../../../assets/images/menu-open.png')} />
 			</MenuIconWrapper>
 		</HeaderComponent>
 	);
