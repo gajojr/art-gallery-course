@@ -8,7 +8,6 @@ import {
 import { Poppins_500Medium, useFonts } from '@expo-google-fonts/poppins';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 
 const Header = () => {
 	const navigation = useNavigation<DrawerNavigationProp<any>>();

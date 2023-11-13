@@ -1,5 +1,6 @@
 import { fireEvent, render } from '../../../test-utils';
 import Header from './Header.component';
+import { useNavigation } from '@react-navigation/native';
 
 jest.mock('expo-font');
 jest.mock('expo-asset');
@@ -13,14 +14,37 @@ jest.mock('@expo-google-fonts/poppins', () => {
 	};
 });
 
+jest.mock('@react-navigation/native', () => {
+	const actualNav = jest.requireActual('@react-navigation/native');
+	return {
+		...actualNav,
+		useNavigation: jest.fn(),
+	};
+});
+
 describe('Header', () => {
-	it('should render a header component with a back arrow and menu icon', async () => {
-		const navigation = {
+	let mockNavigation: {
+		canGoBack: jest.Mock;
+		goBack: jest.Mock;
+		openDrawer: jest.Mock;
+	};
+
+	beforeEach(() => {
+		mockNavigation = {
 			canGoBack: jest.fn(),
 			goBack: jest.fn(),
+			openDrawer: jest.fn(),
 		};
 
-		const { findByTestId } = render(<Header navigation={navigation} />);
+		(useNavigation as jest.Mock).mockReturnValue(mockNavigation);
+	});
+
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+
+	it('should render a header component with a back arrow and menu icon', async () => {
+		const { findByTestId } = render(<Header />);
 		const arrowIcon = await findByTestId('ArrowIcon');
 		const menuIcon = await findByTestId('MenuIcon');
 
@@ -29,26 +53,19 @@ describe('Header', () => {
 	});
 
 	it('should navigate back when back arrow is clicked and navigation prop is provided', async () => {
-		const navigation = {
-			canGoBack: jest.fn().mockReturnValue(true),
-			goBack: jest.fn(),
-		};
+		const { findByTestId } = render(<Header />);
 
-		const { findByTestId } = render(<Header navigation={navigation} />);
+		mockNavigation.canGoBack.mockReturnValue(true);
+		(useNavigation as jest.Mock).mockReturnValue(mockNavigation);
 		const arrowIcon = await findByTestId('ArrowIcon');
 		fireEvent.press(arrowIcon);
 
-		expect(navigation.canGoBack).toHaveBeenCalled();
-		expect(navigation.goBack).toHaveBeenCalled();
+		expect(mockNavigation.canGoBack).toHaveBeenCalled();
+		expect(mockNavigation.goBack).toHaveBeenCalled();
 	});
 
 	it('should toggle menu icon between open and close states when clicked', async () => {
-		const navigation = {
-			canGoBack: jest.fn().mockReturnValue(true),
-			goBack: jest.fn(),
-		};
-
-		const { findByTestId } = render(<Header navigation={navigation} />);
+		const { findByTestId } = render(<Header />);
 		const menuIcon = await findByTestId('IconWrapper');
 
 		fireEvent.press(menuIcon);
@@ -59,15 +76,10 @@ describe('Header', () => {
 	});
 
 	it('should return empty fragment when font fails to load due an error', async () => {
-		const navigation = {
-			canGoBack: jest.fn().mockReturnValue(true),
-			goBack: jest.fn(),
-		};
-
 		const { useFonts } = require('@expo-google-fonts/poppins');
 		useFonts.mockReturnValue([false, new Error('Font loading error')]);
 
-		const { queryByTestId } = render(<Header navigation={navigation} />);
+		const { queryByTestId } = render(<Header />);
 		expect(queryByTestId('HeaderComponent')).toBeNull();
 	});
 });

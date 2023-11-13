@@ -30,7 +30,12 @@ import {
 const MenuScreen = ({
 	navigation,
 }: {
-	navigation: DrawerNavigationHelpers;
+	navigation:
+		| DrawerNavigationHelpers
+		| {
+				closeDrawer: Function;
+				navigate: Function;
+		  };
 }) => {
 	const { isLoaded, signOut } = useAuth();
 	const dispatch = useDispatch();
