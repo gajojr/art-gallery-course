@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import MenuScreen from '../../components/MenuScreen/MenuScreen.screen';
 import Header from '../../components/MyArtScreenComponents/Header/Header.componet';
+import MyArt from '../../components/MyArtScreenComponents/MyArt/MyArt.component';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,6 +50,7 @@ const MyArtScreen = () => {
 						<ButtonText>Publish</ButtonText>
 					</EditProfileOptions>
 				</OptionsWrappers>
+				{mode === 'publish' ? null : <MyArt />}
 				{/* {mode === 'publish' ? <ArtForm setMode={setMode}/> : <MyArt/>} */}
 			</FormWrapper>
 		</Container>
