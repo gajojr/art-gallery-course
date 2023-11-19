@@ -15,6 +15,7 @@ import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import MenuScreen from '../../components/MenuScreen/MenuScreen.screen';
 import Header from '../../components/MyArtScreenComponents/Header/Header.componet';
 import MyArt from '../../components/MyArtScreenComponents/MyArt/MyArt.component';
+import ArtForm from '../../components/MyArtScreenComponents/ArtForm/ArtForm.componen';
 
 const Drawer = createDrawerNavigator();
 
@@ -50,8 +51,7 @@ const MyArtScreen = () => {
 						<ButtonText>Publish</ButtonText>
 					</EditProfileOptions>
 				</OptionsWrappers>
-				{mode === 'publish' ? null : <MyArt />}
-				{/* {mode === 'publish' ? <ArtForm setMode={setMode}/> : <MyArt/>} */}
+				{mode === 'publish' ? <ArtForm setMode={setMode} /> : <MyArt />}
 			</FormWrapper>
 		</Container>
 	);

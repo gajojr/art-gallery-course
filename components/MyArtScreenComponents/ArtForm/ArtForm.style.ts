@@ -81,7 +81,7 @@ export const PublishButton = styled.TouchableOpacity.attrs({
 	shadow-opacity: 0.5;
 	shadow-radius: 20px;
 	elevation: 8;
-	widht: 88%;
+	width: 88%;
 	height: 60px;
 `;
 
