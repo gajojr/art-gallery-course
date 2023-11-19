@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import MenuScreen from '../../components/MenuScreen/MenuScreen.screen';
+import Header from '../../components/MyArtScreenComponents/Header/Header.componet';
 
 const Drawer = createDrawerNavigator();
 
@@ -28,7 +29,7 @@ const MyArtScreen = () => {
 
 	return (
 		<Container>
-			{/* <Header/> */}
+			<Header />
 			<FormWrapper
 				contentContainerStyle={{
 					alignItems: 'center',
