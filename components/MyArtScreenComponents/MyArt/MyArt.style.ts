@@ -36,6 +36,8 @@ export const LinkWrapper = styled.TouchableOpacity`
 
 export const ArtImage = styled.Image`
 	border-radius: 10px;
+	width: 170px;
+	height: 170px;
 `;
 
 export const SoldOverlay = styled.Image`
