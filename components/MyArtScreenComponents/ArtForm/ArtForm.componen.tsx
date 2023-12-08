@@ -167,6 +167,7 @@ const ArtForm = ({ setMode }: { setMode: Function }) => {
 			<TextInputWrapper>
 				<Label>Name</Label>
 				<StyledTextInput
+					testID='NameInput'
 					value={name}
 					onChangeText={(_name: string) => setName(_name)}
 				/>
@@ -174,6 +175,7 @@ const ArtForm = ({ setMode }: { setMode: Function }) => {
 			<TextInputWrapper>
 				<Label>Description</Label>
 				<StyledTextInput
+					testID='DescriptionInput'
 					value={description}
 					onChangeText={(_description: string) => setDescription(_description)}
 				/>
@@ -181,6 +183,7 @@ const ArtForm = ({ setMode }: { setMode: Function }) => {
 			<TextInputWrapper>
 				<Label>Price (10$-1000$)</Label>
 				<StyledTextInput
+					testID='PriceInput'
 					maxLength={4}
 					keyboardType='numeric'
 					value={price}

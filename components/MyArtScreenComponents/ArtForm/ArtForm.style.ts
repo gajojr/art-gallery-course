@@ -22,11 +22,15 @@ export const ImageInputWrapper = styled.View`
 	justify-content: center;
 `;
 
-export const PlusIconWrapper = styled.TouchableOpacity``;
+export const PlusIconWrapper = styled.TouchableOpacity.attrs({
+	testID: 'UploadBtn',
+})``;
 
 export const PlusIcon = styled(Icon)``;
 
-export const UploadedImage = styled.Image`
+export const UploadedImage = styled.Image.attrs({
+	testID: 'UploadedImage',
+})`
 	width: 100%;
 	height: 100%;
 `;
@@ -72,7 +76,7 @@ export const StyledTextInput = styled.TextInput.attrs({
 `;
 
 export const PublishButton = styled.TouchableOpacity.attrs({
-	testID: 'SignInButton',
+	testID: 'PublishBtn',
 })`
 	margin-top: 20px;
 	border-radius: 8px;
