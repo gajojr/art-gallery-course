@@ -34,13 +34,17 @@ export const LinkWrapper = styled.TouchableOpacity`
 	margin-right: 10px;
 `;
 
-export const ArtImage = styled.Image`
+export const ArtImage = styled.Image.attrs({
+	testID: 'ArtImage',
+})`
 	border-radius: 10px;
 	width: 170px;
 	height: 170px;
 `;
 
-export const SoldOverlay = styled.Image`
+export const SoldOverlay = styled.Image.attrs({
+	testID: 'SoldOverlay',
+})`
 	position: absolute;
 	width: 50%;
 	height: 50%;
