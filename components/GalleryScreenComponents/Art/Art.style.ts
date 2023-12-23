@@ -21,7 +21,9 @@ export const SectionTitle = styled.Text`
 	margin-top: 5px;
 `;
 
-export const ImagesWrapper = styled.View`
+export const ImagesWrapper = styled.ScrollView.attrs({
+	horizontal: true,
+})`
 	flex-direction: row;
 	overflow-x: scroll;
 	margin-top: 10px;
@@ -29,7 +31,7 @@ export const ImagesWrapper = styled.View`
 `;
 
 export const LinkWrapper = styled.TouchableOpacity`
-	margin-top: 10px;
+	margin-right: 10px;
 `;
 
 export const ArtImage = styled.Image.attrs({
@@ -43,9 +45,9 @@ export const ArtImage = styled.Image.attrs({
 export const SoldOverlay = styled.Image.attrs({
 	testID: 'SoldOverlay',
 })`
-    position: absolute;
-    width: 50%;
-    height: 50%
-    left: 50%;
-    transform: rotate(30deg);
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	left: 50%;
+	transform: rotate(30deg);
 `;

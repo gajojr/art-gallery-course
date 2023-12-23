@@ -98,3 +98,5 @@ const Art = () => {
 		</Wrapper>
 	);
 };
+
+export default Art;

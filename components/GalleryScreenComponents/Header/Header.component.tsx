@@ -39,8 +39,10 @@ const Header = () => {
 					navigation.openDrawer();
 				}}
 			>
-				<MenuIcon source={require('../../../assets/icons/menu.png')} />
+				<MenuIcon source={require('../../../assets/images/menu-open.png')} />
 			</MenuIconWrapper>
 		</HeaderComponent>
 	);
 };
+
+export default Header;
