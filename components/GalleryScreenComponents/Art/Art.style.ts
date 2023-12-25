@@ -30,7 +30,9 @@ export const ImagesWrapper = styled.ScrollView.attrs({
 	margin-bottom: 10px;
 `;
 
-export const LinkWrapper = styled.TouchableOpacity`
+export const LinkWrapper = styled.TouchableOpacity.attrs({
+	testID: 'LinkWrapper',
+})`
 	margin-right: 10px;
 `;
 

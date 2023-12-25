@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import {
 	FeaturedArtWrapper,
 	ArtImage,
@@ -12,12 +13,13 @@ import { useFonts, Questrial_400Regular } from '@expo-google-fonts/questrial';
 import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const Art = () => {
+	const navigation = useNavigation<DrawerNavigationProp<any>>();
 	const [images, setImages] = useState<
 		{
+			id: string;
 			currentOwner: string;
 			creator: string;
 			href: string;
@@ -44,6 +46,7 @@ const Art = () => {
 					const imageRef = ref(storage, imageUrl);
 					const downloadUrl = await getDownloadURL(imageRef);
 					return {
+						id: doc.id,
 						currentOwner,
 						creator,
 						href: downloadUrl,
@@ -70,7 +73,7 @@ const Art = () => {
 						.map((image, index) => (
 							<LinkWrapper
 								key={index}
-								onPress={() => console.log(image.href)}
+								onPress={() => navigation.navigate(`Art/${image.id}`)}
 							>
 								<ArtImage source={image.src} />
 							</LinkWrapper>
@@ -85,7 +88,7 @@ const Art = () => {
 						.map((image, index) => (
 							<LinkWrapper
 								key={index}
-								onPress={() => console.log(image.href)}
+								onPress={() => navigation.navigate(`Art/${image.id}`)}
 							>
 								<ArtImage source={image.src} />
 								<SoldOverlay
