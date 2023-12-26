@@ -18,7 +18,7 @@ import {
 import { DetailsProps } from '../../../screens/ArtScreen/ArtScreen.screen';
 import store from '../../../redux/store';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 
 const Details = ({ id, details }: { id: string; details: DetailsProps }) => {
 	const [loaded, error] = useFonts({
@@ -28,6 +28,8 @@ const Details = ({ id, details }: { id: string; details: DetailsProps }) => {
 	const [requestPending, setRequestPending] = useState(false);
 
 	const buyArt = async () => {};
+
+	console.log(details.currentOwner === store.getState().auth.username);
 
 	if (!loaded || error) {
 		return <></>;
