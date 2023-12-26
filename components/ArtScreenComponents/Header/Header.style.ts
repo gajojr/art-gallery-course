@@ -5,8 +5,8 @@ export const HeaderComponent = styled.View.attrs({
 	testID: 'HeaderComponent',
 })`
 	flex-direction: row;
-	justify-content: space-between;
 	align-items: center;
+	justify-content: space-between;
 	width: 84%;
 `;
 

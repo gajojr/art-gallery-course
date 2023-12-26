@@ -34,7 +34,11 @@ const Header = () => {
 					color='#fff'
 				/>
 			</IconWrapper>
-			<MenuIconWrapper onPress={() => navigation.openDrawer()}>
+			<MenuIconWrapper
+				onPress={() => {
+					navigation.openDrawer();
+				}}
+			>
 				<MenuIcon source={require('../../../assets/images/menu-open.png')} />
 			</MenuIconWrapper>
 		</HeaderComponent>
