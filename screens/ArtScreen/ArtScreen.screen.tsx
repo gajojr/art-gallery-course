@@ -5,7 +5,7 @@ import {
 import { Container } from './ArtScreen.style';
 import { useFonts, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import MenuScreen from '../../components/MenuScreen/MenuScreen.screen';
-// import Header
+import Header from '../../components/ArtScreenComponents/Header/Header.component';
 // import Details
 import { useState, useEffect } from 'react';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
@@ -70,7 +70,7 @@ const ArtScreen = ({ route }: { route: { params: { id: string } } }) => {
 
 	return (
 		<Container>
-			{/* <Header /> */}
+			<Header />
 			{/* <Details /> */}
 		</Container>
 	);

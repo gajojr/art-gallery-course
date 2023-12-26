@@ -73,7 +73,11 @@ const Art = () => {
 						.map((image, index) => (
 							<LinkWrapper
 								key={index}
-								onPress={() => navigation.navigate(`Art/${image.id}`)}
+								onPress={() =>
+									navigation.navigate('Art', {
+										id: image.id,
+									})
+								}
 							>
 								<ArtImage source={image.src} />
 							</LinkWrapper>
@@ -88,7 +92,11 @@ const Art = () => {
 						.map((image, index) => (
 							<LinkWrapper
 								key={index}
-								onPress={() => navigation.navigate(`Art/${image.id}`)}
+								onPress={() =>
+									navigation.navigate('Art', {
+										id: image.id,
+									})
+								}
 							>
 								<ArtImage source={image.src} />
 								<SoldOverlay
