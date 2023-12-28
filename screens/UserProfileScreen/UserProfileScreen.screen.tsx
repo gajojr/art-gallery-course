@@ -19,8 +19,7 @@ import {
 } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import Details from '../../components/UserProfileScreenComponents/Details/Details.component';
-// import Details
-// import ArtDetails
+import ArtDetails from '../../components/UserProfileScreenComponents/ArtDetails/ArtDetails.component';
 
 const Drawer = createDrawerNavigator();
 
@@ -126,7 +125,7 @@ const UserProfileScreen = ({
 			<WrapperScroll contentContainerStyle={{ alignItems: 'center' }}>
 				<Header />
 				<Details user={userDetails as IUser} />
-				{/* <ArtDetails images={artDetails as ArtDetailsProps[]}/> */}
+				<ArtDetails images={artDetails as ArtDetailsProps[]} />
 			</WrapperScroll>
 		</Container>
 	);
