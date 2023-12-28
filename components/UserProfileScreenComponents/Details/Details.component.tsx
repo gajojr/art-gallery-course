@@ -45,6 +45,7 @@ const Details = ({ user }: { user: IUser }) => {
 			{user?.bio && <Label>{user.bio}</Label>}
 			<SocialMedia>
 				<SocialMediaEntity
+					testID='twitter-icon'
 					onPress={() =>
 						Linking.openURL(`https://user.twitter/${user.twitter}`)
 					}
@@ -55,7 +56,10 @@ const Details = ({ user }: { user: IUser }) => {
 						color='#ffffffbd'
 					/>
 				</SocialMediaEntity>
-				<SocialMediaEntity onPress={() => Linking.openURL(user.website)}>
+				<SocialMediaEntity
+					testID='web-icon'
+					onPress={() => Linking.openURL(user.website)}
+				>
 					<SocialMediaIcon2
 						name='web'
 						size={40}
@@ -63,6 +67,7 @@ const Details = ({ user }: { user: IUser }) => {
 					/>
 				</SocialMediaEntity>
 				<SocialMediaEntity
+					testID='instagram-icon'
 					onPress={() =>
 						Linking.openURL(`https://instagram.com/${user.instagram}`)
 					}
