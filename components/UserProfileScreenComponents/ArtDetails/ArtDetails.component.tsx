@@ -41,7 +41,7 @@ const ArtDetails = ({
 
 	return (
 		<Wrapper contentContainerStyle={{ alignItems: 'center' }}>
-			<FeaturedArtWrapper>
+			<FeaturedArtWrapper testID='FeaturedArtWrapper'>
 				<SectionTitle>Featured</SectionTitle>
 				<ImagesWrapper>
 					{images
@@ -49,16 +49,20 @@ const ArtDetails = ({
 						.map((image) => {
 							return (
 								<LinkWrapper
+									testID={`LinkWrapper-${image.id}`}
 									key={image.id}
 									onPress={() => navigation.navigate('Art', { id: image.id })}
 								>
-									<ArtImage source={image.src} />
+									<ArtImage
+										testID='FeaturedImage'
+										source={image.src}
+									/>
 								</LinkWrapper>
 							);
 						})}
 				</ImagesWrapper>
 			</FeaturedArtWrapper>
-			<SoldArtWrapper>
+			<SoldArtWrapper testID='SoldArtWrapper'>
 				<SectionTitle>Sold</SectionTitle>
 				<ImagesWrapper>
 					{images
@@ -69,7 +73,10 @@ const ArtDetails = ({
 									key={image.id}
 									onPress={() => navigation.navigate('Art', { id: image.id })}
 								>
-									<ArtImage source={image.src} />
+									<ArtImage
+										testID='SoldImage'
+										source={image.src}
+									/>
 									<SoldOverlay
 										source={require('../../../assets/images/sold.png')}
 									/>

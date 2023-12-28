@@ -29,15 +29,11 @@ export const ImagesWrapper = styled.ScrollView.attrs({
 	margin-bottom: 10px;
 `;
 
-export const LinkWrapper = styled.TouchableOpacity.attrs({
-	testID: 'LinkWrapper',
-})`
+export const LinkWrapper = styled.TouchableOpacity`
 	margin-right: 10px;
 `;
 
-export const ArtImage = styled.Image.attrs({
-	testID: 'ArtImage',
-})`
+export const ArtImage = styled.Image`
 	width: 170px;
 	height: 170px;
 	border-radius: 10px;
