@@ -18,6 +18,7 @@ import {
 	query,
 } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import Details from '../../components/UserProfileScreenComponents/Details/Details.component';
 // import Details
 // import ArtDetails
 
@@ -42,7 +43,7 @@ const UserProfileScreen = ({
 }: {
 	route: { params: { username: string } };
 }) => {
-	const [userDetails, setUserDetails] = useState<IUser>();
+	const [userDetails, setUserDetails] = useState<IUser>({} as IUser);
 	const [artDetails, setArtDetails] = useState<ArtDetailsProps[]>([]);
 	const [loaded, error] = useFonts({
 		Poppins_700Bold,
@@ -122,9 +123,9 @@ const UserProfileScreen = ({
 
 	return (
 		<Container>
-			<WrapperScroll>
+			<WrapperScroll contentContainerStyle={{ alignItems: 'center' }}>
 				<Header />
-				{/* <Details user={userDetails}/> */}
+				<Details user={userDetails as IUser} />
 				{/* <ArtDetails images={artDetails as ArtDetailsProps[]}/> */}
 			</WrapperScroll>
 		</Container>
