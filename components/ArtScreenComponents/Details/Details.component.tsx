@@ -18,9 +18,12 @@ import {
 import { DetailsProps } from '../../../screens/ArtScreen/ArtScreen.screen';
 import store from '../../../redux/store';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { DrawerNavigationProp } from '@react-navigation/drawer';
 
 const Details = ({ id, details }: { id: string; details: DetailsProps }) => {
+	const navigation = useNavigation<DrawerNavigationProp<any>>();
 	const [loaded, error] = useFonts({
 		Poppins_400Regular,
 		Poppins_600SemiBold,
@@ -42,7 +45,16 @@ const Details = ({ id, details }: { id: string; details: DetailsProps }) => {
 				<Name>{details.name}</Name>
 				<Price>{details.price} USD</Price>
 			</NameAndPriceWrapper>
-			<Creator>Created by {details.creator}</Creator>
+			<Creator>
+				Created by
+				<TouchableOpacity
+					onPress={() =>
+						navigation.navigate('UserProfile', { username: details.creator })
+					}
+				>
+					<Creator> {details.creator}</Creator>
+				</TouchableOpacity>
+			</Creator>
 			<Desription>{details.description}</Desription>
 			{details.currentOwner !== store.getState().auth.username ? (
 				<BuyButton onPress={buyArt}>

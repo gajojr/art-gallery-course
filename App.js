@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen/ProfileScreen.screen';
 import MyArtScreen from './screens/MyArtScreen/MyArtScreen.screen';
 import GalleryScreen from './screens/GalleryScreen/GalleryScreen.screen';
 import ArtScreen from './screens/ArtScreen/ArtScreen.screen';
+import UserProfileScreen from './screens/UserProfileScreen/UserProfileScreen.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,15 @@ export default function App() {
 						<Stack.Screen
 							name='Art'
 							component={ArtScreen}
+							options={{
+								title: '',
+								headerTransparent: true,
+								headerBackVisible: false,
+							}}
+						/>
+						<Stack.Screen
+							name='UserProfile'
+							component={UserProfileScreen}
 							options={{
 								title: '',
 								headerTransparent: true,
