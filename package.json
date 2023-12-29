@@ -17,6 +17,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/stripe-react-native": "^0.35.0",
     "@testing-library/react-native": "^12.1.2",
     "@tsconfig/react-native": "^3.0.2",
     "@types/jest": "^29.5.3",

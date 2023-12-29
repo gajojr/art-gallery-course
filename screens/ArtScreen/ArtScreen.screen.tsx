@@ -74,6 +74,7 @@ const ArtScreen = ({ route }: { route: { params: { id: string } } }) => {
 			<Details
 				id={route.params.id}
 				details={artDetails}
+				setArtDetails={setArtDetails}
 			/>
 		</Container>
 	);
