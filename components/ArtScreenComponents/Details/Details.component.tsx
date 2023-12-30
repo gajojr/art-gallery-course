@@ -23,6 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { useStripe } from '@stripe/stripe-react-native';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import Constants from 'expo-constants';
 
 const Details = ({
 	id,
@@ -42,15 +43,18 @@ const Details = ({
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const fetchPaymentSheetParams = async (price: number) => {
-		const response = await fetch('http://localhost:4000/payment-sheet', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				price,
-			}),
-		});
+		const response = await fetch(
+			`${Constants?.expoConfig?.extra?.stripeApiUrl}payment-sheet`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					price,
+				}),
+			}
+		);
 
 		const { paymentIntent, ephemeralKey, customer } = await response.json();
 

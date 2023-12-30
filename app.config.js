@@ -10,5 +10,6 @@ module.exports = {
 		messagingSenderId: process.env.MESSAGING_SENDER_ID,
 		appId: process.env.APP_ID,
         stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        stripeApiUrl: process.env.STRIPE_API_URL,
 	},
 };
